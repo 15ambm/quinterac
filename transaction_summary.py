@@ -16,6 +16,3 @@ def writeTransactionSummaryFile(transactions_list):
     for transaction in transactions_list:
         transaction_summary_file.write(transaction.create_transaction_line())
     transaction_summary_file.close()
-
-#basic test 
-#writeTransactionSummaryFile([Transaction("EOS", "0000000", "000", "0000000", "***")])

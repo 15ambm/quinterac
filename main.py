@@ -1,13 +1,15 @@
-
 # Quinterac banking system
 
 # Globals
 import cmd
-from transactionSummary import *
+from transaction_summary import *
+from account import *
+from deposit import deposit
 logged_in = False
 mode = 0
-transaction_list =[]
-deleted_accounts_list =[]
+daily_deposit_limit = 0
+transaction_list = []
+deleted_accounts_list = []
 
 def controller(user_input):
     if user_input == ("login" or "Login"):
@@ -15,19 +17,30 @@ def controller(user_input):
     elif user_input == ("logout" or "Logout"):
         logout()
     elif user_input == ("createacct") and mode == 1:
-        createAccount()
+        transaction = createAccount()
+        if transaction != False:
+            transaction_list.append(transaction)
+            print("Account successfully create")
     elif user_input == ("deleteacct") and mode == 1:
-        deleteAccount()
+        transaction, deleted_account_num = deleteAccount()
+        if transaction != False:
+            deleted_accounts_list.append(deleted_account_num)
+            transaction_list.append(transaction)
+            print("Account successfully deleted")
+    elif user_input == ("deposit"):
+        transaction = deposit(mode, daily_deposit_limit)
+        if transaction != False:
+            transaction_list.append(transaction)
+            print("Successful deposit")
     else: 
         print("That is not a recognized command")
-    
 
 def login():
     global logged_in
-    login_arg = input("Session Type: ")
     if logged_in:
         print("You are already logged in")
         return
+    login_arg = input("Session Type: ")
     valid_loggin = validateLogin(login_arg)
     if(valid_loggin):
         logged_in = True
@@ -52,7 +65,7 @@ def validateLogin(input):
 
 def logout():
     # write to transaction summary file
-    global logged_in
+    global logged_in, transaction_list
     logged_in = False
     # Add EOS Transaction
     EOS = Transaction("EOS", "0000000", "000", "0000000", "***")
@@ -60,56 +73,6 @@ def logout():
     # Write to transaction summary file
     writeTransactionSummaryFile(transaction_list)
     print("Successfully logged out")
-
-def createAccount():
-    # transaction object
-    if mode != 1:
-        print("You do not have create account privilege")
-        return
-
-    account_num = input("Please enter an account number: ")
-    if(not validateAccountNumber(account_num)): 
-        print("Invalid account number")
-        return
-    else:
-        account_name = input("Please enter an account name: ")
-        if(not validateAccountName(account_name)):
-            print("Invalid account name")
-        else:
-            # create new transaction and add to transaction list
-            create_account_transaction = Transaction("NEW", account_num, "000", "0000000", account_name)
-            transaction_list.append(create_account_transaction)
-
-def deleteAccount():
-    if mode != 1:
-        print("You do not have delete account privilege")
-        return
-    account_num = input("Please enter an account number: ")
-    if(not validateAccountNumber(account_num)): 
-        print("Invalid account number")
-        return
-    else:
-        account_name = input("Please enter an account name: ")
-        if(not validateAccountName(account_name)):
-            print("Invalid account name")
-        else:
-            # create new transaction and add to transaction list
-            deleted_accounts_list.append(account_num)
-            create_account_transaction = Transaction("DEL", account_num, "000", "0000000", account_name)
-            transaction_list.append(create_account_transaction)
-
-def validateAccountNumber(account_num):
-    if len(account_num) != 7 and int(str(account_num)[:1]) != 0:
-        return False
-    else:
-        return True
-
-def validateAccountName(account_name):
-    length = len(account_name)
-    if length > 30 and length < 3:
-        return False
-    else:
-        return True
 
 def loop():
     print("Welcome to Quinterac!")
