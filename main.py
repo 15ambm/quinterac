@@ -3,8 +3,11 @@
 
 # Globals
 import cmd
+from transactionSummary import *
 logged_in = False
 mode = 0
+transaction_list =[]
+deleted_accounts_list =[]
 
 def controller(user_input):
     if user_input == ("login" or "Login"):
@@ -13,6 +16,8 @@ def controller(user_input):
         logout()
     elif user_input == ("createacct") and mode == 1:
         createAccount()
+    elif user_input == ("deleteacct") and mode == 1:
+        deleteAccount()
     else: 
         print("That is not a recognized command")
     
@@ -49,6 +54,11 @@ def logout():
     # write to transaction summary file
     global logged_in
     logged_in = False
+    # Add EOS Transaction
+    EOS = Transaction("EOS", "0000000", "000", "0000000", "***")
+    transaction_list.append(EOS)
+    # Write to transaction summary file
+    writeTransactionSummaryFile(transaction_list)
     print("Successfully logged out")
 
 def createAccount():
@@ -65,8 +75,28 @@ def createAccount():
         account_name = input("Please enter an account name: ")
         if(not validateAccountName(account_name)):
             print("Invalid account name")
-    
-    # write account to transaction summary file 
+        else:
+            # create new transaction and add to transaction list
+            create_account_transaction = Transaction("NEW", account_num, "000", "0000000", account_name)
+            transaction_list.append(create_account_transaction)
+
+def deleteAccount():
+    if mode != 1:
+        print("You do not have delete account privilege")
+        return
+    account_num = input("Please enter an account number: ")
+    if(not validateAccountNumber(account_num)): 
+        print("Invalid account number")
+        return
+    else:
+        account_name = input("Please enter an account name: ")
+        if(not validateAccountName(account_name)):
+            print("Invalid account name")
+        else:
+            # create new transaction and add to transaction list
+            deleted_accounts_list.append(account_num)
+            create_account_transaction = Transaction("DEL", account_num, "000", "0000000", account_name)
+            transaction_list.append(create_account_transaction)
 
 def validateAccountNumber(account_num):
     if len(account_num) != 7 and int(str(account_num)[:1]) != 0:
