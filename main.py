@@ -4,14 +4,17 @@
 import cmd
 from transaction_summary import *
 from account import *
-from deposit import deposit
+from features import deposit, withdraw, transfer
 logged_in = False
 mode = 0
-daily_deposit_limit = 0
+daily_deposits = {}
+daily_withdrawals= {}
+daily_transfers = {}
 transaction_list = []
 deleted_accounts_list = []
 
 def controller(user_input):
+    global daily_deposits, daily_withdrawals, daily_transfers
     if user_input == ("login" or "Login"):
         login()
     elif user_input == ("logout" or "Logout"):
@@ -28,10 +31,23 @@ def controller(user_input):
             transaction_list.append(transaction)
             print("Account successfully deleted")
     elif user_input == ("deposit"):
-        transaction = deposit(mode, daily_deposit_limit)
+        transaction, new_daily_deposits = deposit(mode, daily_deposits)
         if transaction != False:
             transaction_list.append(transaction)
+            daily_deposits = new_daily_deposits
             print("Successful deposit")
+    elif user_input == ("withdraw"):
+        transaction, new_daily_withdrawals = withdraw(mode, daily_withdrawals)
+        if transaction != False:
+            transaction_list.append(transaction)
+            daily_withdrawals = new_daily_withdrawals
+            print("Successful withdrawal")
+    elif user_input == ("transfer"):
+        transaction, new_daily_transfers = transfer(mode, daily_transfers)
+        if transaction != False:
+            transaction_list.append(transaction)
+            daily_transfers = new_daily_transfers
+            print("Successful transfer")
     else: 
         print("That is not a recognized command")
 
@@ -71,7 +87,7 @@ def logout():
     EOS = Transaction("EOS", "0000000", "000", "0000000", "***")
     transaction_list.append(EOS)
     # Write to transaction summary file
-    writeTransactionSummaryFile(transaction_list)
+    writeTransactionSummaryFile(transaction_list)   
     print("Successfully logged out")
 
 def loop():
