@@ -1,12 +1,13 @@
 
 
 def validateAccountNumber(account_num):
-    file = open('valid_account_list.txt','r')
+    file = open('./valid_account_list.txt','r')
     for line in file:
         account = int(line.rstrip())
         if account_num == account:
             file.close()
             return True
+    file.close()
     if len(account_num) != 7 or int(str(account_num)[:1]) == 0 or type(account_num) == type(str):
         return False
     else:

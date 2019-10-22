@@ -2,9 +2,9 @@
 
 # Globals
 import cmd
-from transaction_summary import *
-from account import *
-from features import deposit, withdraw, transfer
+from app.transaction_summary import *
+from app.account import *
+from app.features import deposit, withdraw, transfer
 logged_in = False
 mode = 0
 daily_deposits = {}

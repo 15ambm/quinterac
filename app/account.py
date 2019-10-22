@@ -1,5 +1,5 @@
-from transaction_summary import *
-from validate import *
+from app.transaction_summary import *
+from app.validate import *
 
 def createAccount():
     # transaction object

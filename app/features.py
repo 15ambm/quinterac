@@ -1,6 +1,6 @@
 
-from validate import validateAccountNumber, validateDepositAmount, validateWithdrawAmount, validateTransferAmount
-from transaction_summary import Transaction
+from app.validate import validateAccountNumber, validateDepositAmount, validateWithdrawAmount, validateTransferAmount
+from app.transaction_summary import Transaction
 
 
 def deposit(mode, deposits):
