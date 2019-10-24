@@ -31,11 +31,13 @@ def controller(user_input):
             transaction_list.append(transaction)
             print("Account successfully deleted")
     elif user_input == ("deposit"):
-        transaction, new_daily_deposits = deposit(mode, daily_deposits)
-        if transaction != False:
-            transaction_list.append(transaction)
-            daily_deposits = new_daily_deposits
-            print("Successful deposit")
+        account_num, amount = getFeatureInput('deposit')
+        if (account_num and amount) != False:
+            transaction, new_daily_deposits = deposit(account_num, amount, mode, daily_deposits)
+            if transaction != False:
+                transaction_list.append(transaction)
+                daily_deposits = new_daily_deposits
+                print("Successful deposit")
     elif user_input == ("withdraw"):
         transaction, new_daily_withdrawals = withdraw(mode, daily_withdrawals)
         if transaction != False:
@@ -44,12 +46,30 @@ def controller(user_input):
             print("Successful withdrawal")
     elif user_input == ("transfer"):
         transaction, new_daily_transfers = transfer(mode, daily_transfers)
+        daily_transfers = new_daily_transfers
         if transaction != False:
             transaction_list.append(transaction)
-            daily_transfers = new_daily_transfers
             print("Successful transfer")
     else: 
         print("That is not a recognized command")
+
+def getFeatureInput(feature):
+    try:
+        account_num = int(input("Please enter an account number: "))
+    except:
+        print("Invalid account number")
+        return False, False
+    # Getting account numbers is the same for all features so we can validate in our getFeatureInput function
+    if(not validateAccountNumber(account_num)): 
+        print("Invalid account number")
+        return False, False
+    try:
+        # amounts are validated according to their features, so here we only check that they are valid numbers
+        amount = int(input("Please enter an amount to %s: " % feature))
+    except:
+        print("Invalid %s amount" % feature)
+        return False, False
+    return account_num, amount
 
 def login():
     global logged_in
@@ -92,8 +112,10 @@ def logout():
 
 def loop():
     print("Welcome to Quinterac!")
+    global daily_deposits, daily_withdrawals, daily_transfers
+    daily_deposits = daily_withdrawals = daily_transfers = updateDailyLimits()
     while(True):
-        print(logged_in, mode)
+        print("logged in:", logged_in, mode)
         user_input = input("command: ")
         controller(user_input)
         

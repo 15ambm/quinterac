@@ -8,7 +8,7 @@ class Transaction:
         self.account_name = account_name
     def create_transaction_line(self):
         # Returns the transaction information formatted for the transaction summary file
-        return self.transaction_code + ' ' + self.account_number_to + ' '+ self.amount + ' ' + self.account_number_from + ' ' + self.account_name  +"\n"
+        return self.transaction_code + ' ' + str(self.account_number_to) + ' ' + str(self.amount) + ' ' + str(self.account_number_from) + ' ' + self.account_name  +"\n"
 
 def writeTransactionSummaryFile(transactions_list):
     # Writes the list of transactions to the transaction summary file
