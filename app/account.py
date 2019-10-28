@@ -1,15 +1,15 @@
-from transaction_summary import *
-from validate import *
+from app.transaction_summary import *
+from app.validate import *
 
 def createAccount():
     # transaction object
     account_num = input("Please enter an account number: ")
-    if(not validateAccountNumber(account_num)): 
+    if(not validateAccountNumberFormat(account_num)): 
         print("Invalid account number")
         return False
     else:
         account_name = input("Please enter an account name: ")
-        if(not validateAccountName(account_name)):
+        if(not validateAccountNameFormat(account_name)):
             print("Invalid account name")
             return False
         else:
@@ -19,12 +19,12 @@ def createAccount():
 
 def deleteAccount():
     account_num = input("Please enter an account number: ")
-    if(not validateAccountNumber(account_num)): 
+    if(not validateAccountNumberFormat(account_num)): 
         print("Invalid account number")
         return False
     else:
         account_name = input("Please enter an account name: ")
-        if(not validateAccountName(account_name)):
+        if(not validateAccountNameFormat(account_name)):
             print("Invalid account name")
             return False
         else:
