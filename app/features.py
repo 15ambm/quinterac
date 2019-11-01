@@ -12,10 +12,18 @@ def deposit(account_num, amount, mode, deposits):
         return Transaction("DEP", account_num, amount, "0000000", '***'), deposits
 
 
-def withdraw(mode, withdrawals):
-    # transaction object
+def withdraw(account_num, amount, mode, withdrawals):
+    # updated this function to match deposit above
+    new_daily_withdrawals = validateWithdrawAmount(account_num, amount, mode, withdrawals)
+    if (new_daily_withdrawals == False):
+        print("Invalid withdrawal amount")
+        return False, withdrawals
+    else:
+        return Transaction("WDR", account_num, amount, "0000000", '***'), withdrawals
+
+    '''
     account_num = input("Please enter an account number: ")
-    if(not validateAccountNumber(account_num)): 
+    if(not validateAccountNumber(account_num)):
         print("Invalid account number")
         return False, {}
     else:
@@ -26,12 +34,12 @@ def withdraw(mode, withdrawals):
             return False, {}
         else:
             return Transaction("WDR", account_num, amount, "0000000", '***'), withdrawals
-
+'''
 
 def transfer(mode, transfers):
     # transaction object
     account_num = input("Please enter an account number: ")
-    if(not validateAccountNumber(account_num)): 
+    if(not validateAccountNumber(account_num)):
         print("Invalid account number")
         return False, {}
     else:

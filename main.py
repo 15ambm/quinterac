@@ -39,18 +39,20 @@ def controller(user_input):
                 daily_deposits = new_daily_deposits
                 print("Successful deposit")
     elif user_input == ("withdraw"):
-        transaction, new_daily_withdrawals = withdraw(mode, daily_withdrawals)
-        if transaction != False:
-            transaction_list.append(transaction)
-            daily_withdrawals = new_daily_withdrawals
-            print("Successful withdrawal")
+        account_num, amount = getFeatureInput('withdraw')
+        if (account_num and amount) != False:
+            transaction, new_daily_withdrawals = withdraw(account_num, amount, mode, daily_deposits)
+            if transaction != False:
+                transaction_list.append(transaction)
+                daily_withdrawals = new_daily_withdrawals
+                print("successful withdrawal")
     elif user_input == ("transfer"):
         transaction, new_daily_transfers = transfer(mode, daily_transfers)
         daily_transfers = new_daily_transfers
         if transaction != False:
             transaction_list.append(transaction)
             print("Successful transfer")
-    else: 
+    else:
         print("That is not a recognized command")
 
 def getFeatureInput(feature):
@@ -60,7 +62,7 @@ def getFeatureInput(feature):
         print("Invalid account number")
         return False, False
     # Getting account numbers is the same for all features so we can validate in our getFeatureInput function
-    if(not validateAccountNumber(account_num)): 
+    if(not validateAccountNumber(account_num)):
         print("Invalid account number")
         return False, False
     try:
@@ -95,7 +97,7 @@ def validateLogin(input):
     elif input == 'Agent' or input == 'agent':
         mode = 1
         return True
-    else: 
+    else:
         print("That is not an option")
         return False
 
@@ -107,7 +109,7 @@ def logout():
     EOS = Transaction("EOS", "0000000", "000", "0000000", "***")
     transaction_list.append(EOS)
     # Write to transaction summary file
-    writeTransactionSummaryFile(transaction_list)   
+    writeTransactionSummaryFile(transaction_list)
     print("Successfully logged out")
 
 def loop():
@@ -118,7 +120,7 @@ def loop():
         print("logged in:", logged_in, mode)
         user_input = input("command: ")
         controller(user_input)
-        
+
 
 
 
