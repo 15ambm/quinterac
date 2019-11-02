@@ -36,17 +36,11 @@ def withdraw(account_num, amount, mode, withdrawals):
             return Transaction("WDR", account_num, amount, "0000000", '***'), withdrawals
 '''
 
-def transfer(mode, transfers):
+def transfer(mode, account_num1, account_num2, amount, transfers):
     # transaction object
-    account_num = input("Please enter an account number: ")
-    if(not validateAccountNumber(account_num)):
-        print("Invalid account number")
-        return False, {}
+    new_daily_transfers = validateTransferAmount(amount, int(account_num1), mode, transfers)
+    if(new_daily_transfers == False ):
+        print("Invalid transfer amount")
+        return False, transfers
     else:
-        amount = input("Please enter an amount to transfer: ")
-        transfers = validateTransferAmount(amount, int(account_num), mode, transfers)
-        if(transfers == False ):
-            print("Invalid transfer amount")
-            return False, {}
-        else:
-            return Transaction("XFR", account_num, amount, "0000000", '***'), transfers
+        return Transaction("XFR", account_num2, amount, account_num1, '***'), transfers
