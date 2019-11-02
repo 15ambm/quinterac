@@ -14,14 +14,15 @@ transaction_list = []
 deleted_accounts_list = []
 
 def controller(user_input):
-    global daily_deposits, daily_withdrawals, daily_transfers
+    global daily_deposits, daily_withdrawals, daily_transfers, logged_in
     if user_input == ("login" or "Login"):
-        login()
+        logged_in = login()
     elif user_input == ("logout" or "Logout"):
         logout()
     elif user_input == ("createacct") and mode == 1:
-        transaction = createAccount()
-        if transaction != False:
+        account_num, account_name = getAccountInput()
+        if (account_num  and account_num) != False:
+            transaction = createAccount(account_num, account_name)
             transaction_list.append(transaction)
             print("Account successfully create")
     elif user_input == ("deleteacct") and mode == 1:
@@ -45,7 +46,7 @@ def controller(user_input):
             if transaction != False:
                 transaction_list.append(transaction)
                 daily_withdrawals = new_daily_withdrawals
-                print("successful withdrawal")
+                print("Successful withdrawal")
     elif user_input == ("transfer"):
         account_num, amount, account_num2 = getFeatureInput('transfer')
         if (account_num and amount and account_num2) != False:
@@ -62,16 +63,23 @@ def getFeatureInput(feature):
         account_num = int(input("Please enter an account number: "))
     except:
         print("Invalid account number")
+        if feature == 'transfer':
+            return False, False, False
         return False, False
     # Getting account numbers is the same for all features so we can validate in our getFeatureInput function
     if(not validateAccountNumber(account_num)):
         print("Invalid account number")
-        return False, False
+        if feature == 'transfer':
+            return False, False, False
+        else:
+            return False, False
     try:
         # amounts are validated according to their features, so here we only check that they are valid numbers
         amount = int(input("Please enter an amount to %s: " % feature))
     except:
         print("Invalid %s amount" % feature)
+        if feature == 'transfer':
+            return False, False, False
         return False, False
     if(feature == 'transfer'):
         try:
@@ -79,28 +87,40 @@ def getFeatureInput(feature):
         except:
             print("Invalid account number")
             return False, False, False
-        if(not validateAccountNumber(7654321)):
+        if(not validateAccountNumber(account_num2)):
             print("Invalid account number")
-            return False, False
+            return False, False, False
         else:
             return account_num, amount, account_num2
     return account_num, amount
 
+def getAccountInput():
+    try:
+        account_num = int(input("Please enter an account number: "))
+    except:
+        print("Invalid account number")
+        return False, False
+    if(not validateAccountNumberFormat(account_num)):
+        print("Invalid account number")
+        return False, False
+    account_name = input("Please enter an account name: ")
+    if(not validateAccountNameFormat(account_name)):
+        print("Invalid account name")
+        return False, False
+    return account_num, account_name
+
 def login():
-    global logged_in
     if logged_in:
         print("You are already logged in")
-        return
+        return True
     login_arg = input("Session Type: ")
     valid_loggin = validateLogin(login_arg)
     if(valid_loggin):
-        logged_in = True
         print("logged in successfully")
-        return
+        return True
     else:
-        logged_in = False
         print("could not log in")
-        return
+        return False
 
 def validateLogin(input):
     global mode
@@ -134,7 +154,5 @@ def loop():
         user_input = input("command: ")
         controller(user_input)
 
-
-
-
-loop()
+if __name__ == "__main__":
+    loop()

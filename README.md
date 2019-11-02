@@ -7,3 +7,6 @@ To run the program
 * open command prompt or terminal
 * navigate to the quinterac directory
 * use the following command: `python main.py`
+
+To run the automated tests
+* `python -m pytest`

@@ -21,8 +21,8 @@ def test_valid_account_name_format():
 
 def test_invaild_account_name_format():
     # too short
-    assert validateAccountNameFormat('a') == True
+    assert validateAccountNameFormat('a') == False
     # too long
-    assert validateAccountNameFormat('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa') == True
+    assert validateAccountNameFormat('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa') == False
 
     
