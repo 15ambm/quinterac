@@ -5,6 +5,7 @@ import cmd
 from app.transaction_summary import *
 from app.account import *
 from app.features import deposit, withdraw, transfer
+from app.backend import updateBackend
 logged_in = False
 mode = 0
 daily_deposits = {}
@@ -15,7 +16,9 @@ deleted_accounts_list = []
 
 def controller(user_input):
     global daily_deposits, daily_withdrawals, daily_transfers, logged_in
-    if user_input == ("login" or "Login"):
+    if user_input == ("quit" or "Quit"):
+        updateBackend()
+    elif user_input == ("login" or "Login"):
         logged_in = login()
     elif user_input == ("logout" or "Logout"):
         logout()
