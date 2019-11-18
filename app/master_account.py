@@ -1,11 +1,5 @@
-'''
-class MasterAccountList:
-    def __init__(self, list: dict(MasterAccount)):
-        self.list = []
-    def deposit(account_num, amount):
 
-    def getAccountByNum(account_num):
-'''
+
 class MasterAccount:
     # Use to keep track of the transactions made in the session
     def __init__(self,account_number, balance, account_name):
@@ -18,14 +12,14 @@ class MasterAccount:
 
 def writeMasterAccountsFile(master_account_list):
     # Writes the list of transactions to the transaction summary file
-    master_account_file = open("master_accounts_list.txt","a")
-    for account in master_account_list:
+    master_account_file = open("master_accounts_list.txt","w")
+    for key, account in master_account_list.items():
         master_account_file.write(account.create_master_account_line())
     master_account_file.close()
 
 def stringToMasterAccount(master_account_string):
     x = master_account_string.split(' ', 2)
-    account = MasterAccount(x[0], x[1], x[2])
+    account = MasterAccount(int(x[0]), int(x[1]), x[2])
     return account
 
 # converts the transaction_summary.txt file to a list of Transaction objects
@@ -34,7 +28,7 @@ def getMasterAccountsList():
     master_accounts_list = {}
     line = master_accounts_file.readline()
     while line:
-        # This if statment ensures that no none type objects are added to the the transaction list
+        # This if statment ensures that no none-type objects are added to the the transaction list
         if len(line.strip()) >= 1:
             account = stringToMasterAccount(line.strip())
             master_accounts_list[account.account_number] = account

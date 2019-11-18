@@ -2,6 +2,7 @@
 
 # Globals
 import cmd
+import sys
 from app.transaction_summary import *
 from app.account import *
 from app.features import deposit, withdraw, transfer
@@ -16,8 +17,9 @@ deleted_accounts_list = []
 
 def controller(user_input):
     global daily_deposits, daily_withdrawals, daily_transfers, logged_in
-    if user_input == ("quit" or "Quit"):
+    if user_input == ("quit" or "Quit" or "exit" or "Exit"):
         updateBackend()
+        sys.exit()
     elif user_input == ("login" or "Login"):
         logged_in = login()
     elif user_input == ("logout" or "Logout"):

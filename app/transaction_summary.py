@@ -20,7 +20,7 @@ def writeTransactionSummaryFile(transactions_list):
 # converts a single line from the transaction_summary.txt file to a Transaction object
 def stringToTransaction(transactionString):
     x = transactionString.split(' ', 4)
-    transaction = Transaction(x[0], x[1], x[2], x[3], x[4])
+    transaction = Transaction(x[0], int(x[1]), int(x[2]), int(x[3]), x[4])
     return transaction
 
 # converts the transaction_summary.txt file to a list of Transaction objects
