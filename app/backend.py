@@ -58,15 +58,15 @@ def deleteAccount(transaction, master_accounts_list):
     if(account.balance == 0):
             del master_accounts_list[transaction.account_number_to]
     return master_accounts_list
-'''
+
 def generateValidAccountsList(master_accounts_list):
     # Writes the list of accounts from the master accounts list to the valid_accounts_list
-    valid_accounts_list = open("valid_accounts_list.txt","w")
-    for key, account in master_accounts_list:
-        valid_accounts_list.write(key)
-    valid_accounts_list.write('/n')
+    valid_accounts_list = open("valid_account_list.txt","w")
+    for key, account in master_accounts_list.items():
+        valid_accounts_list.write(str(key) + '\n')
+    valid_accounts_list.write('\n')
     valid_accounts_list.close()
-'''
+
 def updateBackend():
     transaction_list = getTransactionsList()
     master_accounts_list = getMasterAccountsList()
@@ -75,5 +75,6 @@ def updateBackend():
         #print(master_accounts_list.ite)
         master_accounts_list = backendController(transaction, master_accounts_list)
     writeMasterAccountsFile(master_accounts_list)
+    generateValidAccountsList(master_accounts_list)
 
 
