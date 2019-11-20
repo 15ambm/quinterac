@@ -1,10 +1,14 @@
 # Quinterac banking system
 
-# Globals
+
 import cmd
+import sys
 from app.transaction_summary import *
 from app.account import *
 from app.features import deposit, withdraw, transfer
+from app.backend import updateBackend
+
+# Globals
 logged_in = False
 mode = 0
 daily_deposits = {}
@@ -15,7 +19,13 @@ deleted_accounts_list = []
 
 def controller(user_input):
     global daily_deposits, daily_withdrawals, daily_transfers, logged_in
-    if user_input == ("login" or "Login"):
+    if user_input == ("quit"):
+        if logged_in == False:
+            updateBackend()
+            sys.exit()
+        else:
+            print("Please logout first")
+    elif user_input == ("login" or "Login"):
         logged_in = login()
     elif user_input == ("logout" or "Logout"):
         logout()
@@ -116,10 +126,10 @@ def login():
     login_arg = input("Session Type: ")
     valid_loggin = validateLogin(login_arg)
     if(valid_loggin):
-        print("logged in successfully")
+        print("Logged in successfully")
         return True
     else:
-        print("could not log in")
+        print("Could not log in")
         return False
 
 def validateLogin(input):

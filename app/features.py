@@ -1,7 +1,9 @@
-
+'''
+This file handles the primary features of the banking system, including
+deposits, withdrawals, and transfers
+'''
 from app.validate import validateAccountNumber, validateDepositAmount, validateWithdrawAmount, validateTransferAmount
 from app.transaction_summary import Transaction
-
 
 def deposit(account_num, amount, mode, deposits):
     new_daily_deposits = validateDepositAmount(account_num, amount, mode, deposits)

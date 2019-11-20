@@ -1,3 +1,8 @@
+'''
+This file handles all the account features, including 
+createAccount() and deleteAccount()
+'''
+
 from app.transaction_summary import *
 from app.validate import *
 
