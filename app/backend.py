@@ -1,3 +1,8 @@
+'''
+This file handles the backend processing at the end of a day
+It updates the master_accounts_list and valid_account_list text files
+based on the days transactions 
+'''
 
 from app.transaction_summary import *
 from app.master_account import *
@@ -76,5 +81,6 @@ def updateBackend():
         master_accounts_list = backendController(transaction, master_accounts_list)
     writeMasterAccountsFile(master_accounts_list)
     generateValidAccountsList(master_accounts_list)
+    open('transaction_summary.txt', 'w').close()
 
 

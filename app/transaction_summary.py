@@ -1,3 +1,7 @@
+'''
+This file contains the definition of the Transaction object
+It handles reading and writing from the transaction_summary.txt file
+'''
 class Transaction:
     # Use to keep track of the transactions made in the session
     def __init__(self, transaction_code, account_number_to, amount, account_number_from, account_name):

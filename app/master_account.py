@@ -1,5 +1,7 @@
-
-
+'''
+This file contains the definition of the MasterAccount object
+It handles reading and writing from the master_accounts_list.txt file
+'''
 class MasterAccount:
     # Use to keep track of the transactions made in the session
     def __init__(self,account_number, balance, account_name):

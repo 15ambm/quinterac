@@ -1,16 +1,27 @@
-
+'''
+This file handles all forms of validation 
+This includes validating account numbers, deposit, withdraw and transfer amounts
+It also includes the updateDailyLimits() function, used to update the global dictionaries
+in main that keep track of daily withdraw, transfer and deposit limits
+'''
 def updateDailyLimits():
     empty_limit_dict = {}
     file = open('./valid_account_list.txt','r')
     for line in file:
-        account = int(line.rstrip())
+        try:
+            account = int(line.rstrip())
+        except:
+            pass
         empty_limit_dict[account] = 0
     return empty_limit_dict
 
 def validateAccountNumber(account_num):
     file = open('./valid_account_list.txt','r')
     for line in file:
-        account = int(line.rstrip())
+        try:
+            account = int(line.rstrip())
+        except:
+            pass
         if account_num == account:
             file.close()
             return True
