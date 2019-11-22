@@ -160,8 +160,7 @@ def loop():
     global daily_deposits, daily_withdrawals, daily_transfers
     daily_deposits = daily_withdrawals = daily_transfers = updateDailyLimits()
     while(True):
-        print("logged in:", logged_in, mode)
-        user_input = input("command: ")
+        user_input = input("> ")
         controller(user_input)
 
 if __name__ == "__main__":
