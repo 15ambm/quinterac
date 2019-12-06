@@ -81,6 +81,4 @@ def updateBackend():
         master_accounts_list = backendController(transaction, master_accounts_list)
     writeMasterAccountsFile(master_accounts_list)
     generateValidAccountsList(master_accounts_list)
-    open('transaction_summary.txt', 'w').close()
-
-
+    #open('merged_transaction_summary.txt', 'w').close()
