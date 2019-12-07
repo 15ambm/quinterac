@@ -3,14 +3,20 @@ Welcome to the repository for Queen's Old Fashioned Interactive Banking System
 
 Created by Alex Mason, Ted Munn, and Marc De Verteuil
 
-### Running Quinterac
+### Running quinterac
 * open command prompt or terminal
 * navigate to the quinterac directory
-* use the following command: `python main.py`
+* use the following command: `python __main__.py`
+
+### Running the Backend
+
+`python backend.py`
 
 ### Running Test Suite
 
 `python -m pytest`
+
+Note: The test_full_system.py tests have major side effects and these tests are skipped by deafult.
 
 ## Available Commands
 

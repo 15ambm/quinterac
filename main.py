@@ -14,6 +14,9 @@ daily_transfers = {}
 transaction_list = []
 deleted_accounts_list = []
 
+def main():
+    loop()
+
 def controller(user_input):
     global daily_deposits, daily_withdrawals, daily_transfers, logged_in
 
@@ -165,6 +168,3 @@ def loop():
     while(True):
         user_input = input("> ")
         controller(user_input)
-
-if __name__ == "__main__":
-    loop()
