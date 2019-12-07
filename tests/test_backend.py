@@ -1,5 +1,5 @@
 import pytest
-from app.backend import *
+from backend import *
 from app.master_account import MasterAccount
 from app.transaction_summary import Transaction
 

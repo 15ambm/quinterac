@@ -1,12 +1,9 @@
 # Quinterac banking system
-
-
 import cmd
 import sys
 from app.transaction_summary import *
 from app.account import *
 from app.features import deposit, withdraw, transfer
-from app.backend import updateBackend
 
 # Globals
 logged_in = False
@@ -17,18 +14,24 @@ daily_transfers = {}
 transaction_list = []
 deleted_accounts_list = []
 
+def main():
+    loop()
+
 def controller(user_input):
     global daily_deposits, daily_withdrawals, daily_transfers, logged_in
+
     if user_input == ("quit"):
         if logged_in == False:
-            updateBackend()
             sys.exit()
         else:
             print("Please logout first")
     elif user_input == ("login" or "Login"):
         logged_in = login()
+    elif logged_in == False:
+        print("You are not logged in")
     elif user_input == ("logout" or "Logout"):
         logout()
+        transaction_list.clear()        
     elif user_input == ("createacct") and mode == 1:
         account_num, account_name = getAccountInput()
         if (account_num  and account_num) != False:
@@ -145,8 +148,11 @@ def validateLogin(input):
         return False
 
 def logout():
-    # write to transaction summary file
     global logged_in, transaction_list
+    if logged_in == False:
+        print("You are not logged in")
+        return
+    # write to transaction summary file
     logged_in = False
     # Add EOS Transaction
     EOS = Transaction("EOS", "0000000", "000", "0000000", "***")
@@ -162,6 +168,3 @@ def loop():
     while(True):
         user_input = input("> ")
         controller(user_input)
-
-if __name__ == "__main__":
-    loop()

@@ -6,6 +6,7 @@ based on the days transactions
 
 from app.transaction_summary import *
 from app.master_account import *
+import os
 
 def backendController(transaction, master_accounts_list):
 
@@ -72,15 +73,26 @@ def generateValidAccountsList(master_accounts_list):
     valid_accounts_list.write('\n')
     valid_accounts_list.close()
 
+def mergeTransactions():
+    transaction_filenames = [f for f in os.listdir("./transactions") if os.path.isfile(os.path.join("./transactions", f))]
+    with open('merged_transaction_summary.txt', 'w') as outfile:
+        for fname in transaction_filenames:
+            with open("./transactions/" + fname) as infile:
+                outfile.write(infile.read())
+
+def clearTransactions():
+    transaction_filenames = [f for f in os.listdir("./transactions") if os.path.isfile(os.path.join("./transactions", f))]
+    for file in transaction_filenames:
+        os.remove("./transactions/{}".format(file))
+
 def updateBackend():
+    mergeTransactions()
     transaction_list = getTransactionsList()
     master_accounts_list = getMasterAccountsList()
-    #print(master_accounts_list)
     for transaction in transaction_list:
-        #print(master_accounts_list.ite)
         master_accounts_list = backendController(transaction, master_accounts_list)
     writeMasterAccountsFile(master_accounts_list)
     generateValidAccountsList(master_accounts_list)
-    open('transaction_summary.txt', 'w').close()
+    clearTransactions()
 
-
+updateBackend()

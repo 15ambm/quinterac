@@ -10,9 +10,9 @@ def updateDailyLimits():
     for line in file:
         try:
             account = int(line.rstrip())
+            empty_limit_dict[account] = 0
         except:
             pass
-        empty_limit_dict[account] = 0
     return empty_limit_dict
 
 def validateAccountNumber(account_num):
@@ -20,16 +20,16 @@ def validateAccountNumber(account_num):
     for line in file:
         try:
             account = int(line.rstrip())
+            if account_num == account:
+                file.close()
+                return True
         except:
             pass
-        if account_num == account:
-            file.close()
-            return True
     file.close()
     return False
 
 def validateAccountNumberFormat(account_num):
-    if len(account_num) != 7 or int(str(account_num)[:1]) == 0 or type(account_num) == type(str):
+    if len(str(account_num)) != 7 or int(str(account_num)[:1]) == 0 or type(account_num) == type(str):
         return False
     else:
         return True
